@@ -19,6 +19,8 @@ class ViewController: UIViewController {
     
     var isMoving = false
     lazy var motionManager = CMMotionManager()
+    var gameTimer: Timer!
+    var startDate: Date!
     
 
     override func viewDidLoad() {
@@ -30,7 +32,7 @@ class ViewController: UIViewController {
     
     private func setupStreet() {
         streetImageView.frame.size.width = view.frame.size.width * 2
-        streetImageView.frame.size.height = view.frame.size.height * 2
+        streetImageView.frame.size.height = streetImageView.frame.size.width * 2
         streetImageView.center = view.center
     }
     
@@ -53,6 +55,7 @@ class ViewController: UIViewController {
         instructionsLabel.isHidden = true
         gameOverView.isHidden = true
         isMoving = false
+        startDate = Date()
         
         if motionManager.isDeviceMotionActive {
             motionManager.startDeviceMotionUpdates(to: .main) { (data, error) in
@@ -61,12 +64,54 @@ class ViewController: UIViewController {
                 print("x: \(data.gravity.x), y: \(data.gravity.y), z: \(data.gravity.z)")
                 let angle = atan2(data.gravity.x, data.gravity.y)
                 self.playerImageView.transform = CGAffineTransform(rotationAngle: CGFloat(angle))
+                
+                if !self.isMoving {
+                    self.checkGameOver()
+                }
             }
+        }
+        
+        gameTimer = Timer.scheduledTimer(withTimeInterval: 4.0, repeats: true, block: { (timer) in
+            self.rotateWorld()
+        })
+        
+    }
+    
+    private func restartRotate() {
+        self.playerImageView.transform = CGAffineTransform(rotationAngle: 0)
+        self.streetImageView.transform = CGAffineTransform(rotationAngle: 0)
+    }
+    
+    private func rotateWorld() {
+        let randomAngle = Double(arc4random_uniform(120))/100 - 0.6
+        isMoving = true
+        UIView.animate(withDuration: 0.75, animations: {
+            self.streetImageView.transform = CGAffineTransform(rotationAngle: CGFloat(randomAngle))
+            
+        }) { (success) in
+            if success { self.isMoving = false }
+        }
+    }
+    
+    private func checkGameOver() {
+        let worldAngle = atan2(Double(streetImageView.transform.a), Double(streetImageView.transform.b))
+        let playerAngle = atan2(Double(playerImageView.transform.a), Double(playerImageView.transform.b))
+        let difference = abs(worldAngle - playerAngle)
+        
+        if difference < 0.25 {
+            gameTimer.invalidate()
+            gameOverView.isHidden = false
+            motionManager.stopDeviceMotionUpdates()
+            
+            let secondsPlayed = round(Date().timeIntervalSince(startDate))
+            timePlayedLabel.text = "Você jogou durante \(secondsPlayed) segundos!"
         }
     }
 
     @IBAction func playAgain(_ sender: UIButton) {
+        startGame()
     }
+    
     
 }
 
