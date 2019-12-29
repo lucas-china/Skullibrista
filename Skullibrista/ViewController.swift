@@ -56,13 +56,14 @@ class ViewController: UIViewController {
         gameOverView.isHidden = true
         isMoving = false
         startDate = Date()
+        restartRotate()
         
-        if motionManager.isDeviceMotionActive {
+        if motionManager.isDeviceMotionAvailable {
             motionManager.startDeviceMotionUpdates(to: .main) { (data, error) in
                 if error != nil { return }
                 guard let data = data else { return }
-                print("x: \(data.gravity.x), y: \(data.gravity.y), z: \(data.gravity.z)")
-                let angle = atan2(data.gravity.x, data.gravity.y)
+                
+                let angle = atan2(data.gravity.x, data.gravity.y) - .pi
                 self.playerImageView.transform = CGAffineTransform(rotationAngle: CGFloat(angle))
                 
                 if !self.isMoving {
@@ -98,7 +99,7 @@ class ViewController: UIViewController {
         let playerAngle = atan2(Double(playerImageView.transform.a), Double(playerImageView.transform.b))
         let difference = abs(worldAngle - playerAngle)
         
-        if difference < 0.25 {
+        if difference > 0.25 {
             gameTimer.invalidate()
             gameOverView.isHidden = false
             motionManager.stopDeviceMotionUpdates()
