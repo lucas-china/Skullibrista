@@ -56,15 +56,39 @@
 		6D074E5A23B93CEB002AC119 /* Skullibrista */ = {
 			isa = PBXGroup;
 			children = (
-				6D074E5B23B93CEB002AC119 /* AppDelegate.swift */,
-				6D074E5D23B93CEB002AC119 /* SceneDelegate.swift */,
-				6D074E5F23B93CEB002AC119 /* ViewController.swift */,
-				6D074E6123B93CEB002AC119 /* Main.storyboard */,
+				6D074E6F23B96593002AC119 /* System Files */,
+				6D074E7023B965A3002AC119 /* Controllers */,
+				6D074E7123B965B2002AC119 /* Views */,
 				6D074E6423B93CED002AC119 /* Assets.xcassets */,
-				6D074E6623B93CED002AC119 /* LaunchScreen.storyboard */,
-				6D074E6923B93CED002AC119 /* Info.plist */,
 			);
 			path = Skullibrista;
+			sourceTree = "<group>";
+		};
+		6D074E6F23B96593002AC119 /* System Files */ = {
+			isa = PBXGroup;
+			children = (
+				6D074E5B23B93CEB002AC119 /* AppDelegate.swift */,
+				6D074E5D23B93CEB002AC119 /* SceneDelegate.swift */,
+				6D074E6923B93CED002AC119 /* Info.plist */,
+			);
+			path = "System Files";
+			sourceTree = "<group>";
+		};
+		6D074E7023B965A3002AC119 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				6D074E5F23B93CEB002AC119 /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		6D074E7123B965B2002AC119 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6D074E6123B93CEB002AC119 /* Main.storyboard */,
+				6D074E6623B93CED002AC119 /* LaunchScreen.storyboard */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
