@@ -9,12 +9,21 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    @IBOutlet weak var streetImageView: UIImageView!
+    @IBOutlet weak var playerImageView: UIImageView!
+    @IBOutlet weak var gameOverView: UIView!
+    @IBOutlet weak var timePlayedLabel: UILabel!
+    @IBOutlet weak var instructionsLabel: UILabel!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        gameOverView.isHidden = true
     }
 
-
+    @IBAction func playAgain(_ sender: UIButton) {
+    }
+    
 }
 
